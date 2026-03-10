@@ -1,10 +1,7 @@
 package br.com.dio.desafio.dominio;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Bootcamp {
     private String nome;
@@ -14,6 +11,15 @@ public class Bootcamp {
     private Set<Dev> devsInscritos = new HashSet<>();
     private Set<Conteudo> conteudos = new LinkedHashSet<>();
 
+    public Bootcamp() {
+    }
+
+    public Bootcamp(String nome, String descricao, Set<Dev> devsInscritos, Set<Conteudo> conteudos) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.devsInscritos = devsInscritos;
+        this.conteudos = conteudos;
+    }
 
     public String getNome() {
         return nome;
@@ -40,19 +46,22 @@ public class Bootcamp {
     }
 
     public Set<Dev> getDevsInscritos() {
+        if (this.devsInscritos == null) {
+            throw new RuntimeException("Nenhum Dev inscrito!");
+        }
         return devsInscritos;
     }
 
-    public void setDevsInscritos(Set<Dev> devsInscritos) {
-        this.devsInscritos = devsInscritos;
+    public void addDevs(Dev devsInscritos) {
+        this.devsInscritos.add(devsInscritos);
     }
 
     public Set<Conteudo> getConteudos() {
-        return conteudos;
+        return Collections.unmodifiableSet(conteudos);
     }
 
-    public void setConteudos(Set<Conteudo> conteudos) {
-        this.conteudos = conteudos;
+    public void adicionarConteudo(Conteudo conteudo) {
+        this.conteudos.add(conteudo);
     }
 
     @Override

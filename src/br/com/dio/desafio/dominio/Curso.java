@@ -12,6 +12,12 @@ public class Curso extends Conteudo{
     public Curso() {
     }
 
+    public Curso(String titulo, String descricao, int cargaHoraria) {
+        setTitulo(titulo);
+        setDescricao(descricao);
+        this.cargaHoraria = cargaHoraria;
+    }
+
 
     public int getCargaHoraria() {
         return cargaHoraria;

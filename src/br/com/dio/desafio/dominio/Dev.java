@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Dev {
     private String nome;
+    private Nivel nivel = new Nivel();
+    private double xpTotal = 0;
     private Set<Conteudo> conteudosInscritos = new LinkedHashSet<>();
     private Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
 
@@ -14,28 +16,23 @@ public class Dev {
 
     public void progredir() {
         Optional<Conteudo> conteudo = this.conteudosInscritos.stream().findFirst();
-        if(conteudo.isPresent()) {
+        if (conteudo.isPresent()) {
+            double xpGanho = conteudo.get().calcularXp();
             this.conteudosConcluidos.add(conteudo.get());
             this.conteudosInscritos.remove(conteudo.get());
+
+            this.xpTotal += xpGanho;
+            this.nivel.adicionarXp(xpGanho);
         } else {
             System.err.println("Você não está matriculado em nenhum conteúdo!");
         }
     }
 
     public double calcularTotalXp() {
-        Iterator<Conteudo> iterator = this.conteudosConcluidos.iterator();
-        double soma = 0;
-        while(iterator.hasNext()){
-            double next = iterator.next().calcularXp();
-            soma += next;
-        }
-        return soma;
-
-        /*return this.conteudosConcluidos
-                .stream()
-                .mapToDouble(Conteudo::calcularXp)
-                .sum();*/
+        return this.xpTotal;
     }
+
+    public Nivel getNivel() { return nivel; }
 
 
     public String getNome() {
